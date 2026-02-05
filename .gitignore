@@ -1,0 +1,114 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+
+# Node
+node_modules/
+.next/
+out/
+.vercel
+*.tsbuildinfo
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+.env.production
+*.secrets
+*.pem
+*.key
+*.crt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.lnk
+
+# Database
+*.db
+*.sqlite3
+*.sqlite
+*.sqlite3-journal
+
+# Logs
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+.coverage
+coverage/
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+*.coverag
+
+# Docker
+.docker/
+docker-compose.override.yml
+.dockerignore
+
+# Cache
+.cache/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.npm/
+.eslintcache
+.stylelintcache
+
+# Temporary
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*~
+\#*\#
+.*.sw?
+
+# Production specific
+.env.production.local
+.vercel
+.output
+dist
+build
+
+# Database Migrations (optional - some teams prefer to commit these)
+# alembic/versions/*.py
+
+# Celery beat schedule
+celerybeat-schedule
+celerybeat-schedule.db
+
+# OpenClaw
+.openclaw/
+.openclaw.pid
+.openclaw.log

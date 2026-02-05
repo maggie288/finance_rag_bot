@@ -1,0 +1,59 @@
+{
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3.2",
+    "apiKey": null,
+    "baseUrl": "http://localhost:11434"
+  },
+  "embedding": {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiKey": null,
+    "baseUrl": "http://localhost:11434"
+  },
+  "browser": {
+    "headless": true,
+    "disableSecurity": true
+  },
+  "storage": {
+    "type": "local",
+    "path": "/data"
+  },
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "ssl": false
+  },
+  "telemetry": {
+    "enabled": false
+  },
+  "simulation": {
+    "enabled": true,
+    "mode": "paper_trading",
+    "initialBalance": {
+      "usd": 1000,
+      "btc": 0.1
+    }
+  },
+  "skills": {
+    "polymarket": {
+      "enabled": true,
+      "simulation": true,
+      "mockOrders": true,
+      "autoTrading": {
+        "enabled": false,
+        "maxBetAmount": 0,
+        "minConfidence": 0,
+        "strategies": []
+      },
+      "wallet": {
+        "address": "mock-btc-address-simulation",
+        "privateKey": "mock-private-key-simulation"
+      }
+    }
+  },
+  "logging": {
+    "level": "info",
+    "format": "json"
+  }
+}
