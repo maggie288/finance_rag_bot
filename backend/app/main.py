@@ -16,7 +16,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
-logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -61,14 +60,8 @@ async def health(request: Request = None):
     elapsed = time.time() - STARTUP_TIME
     client_ip = request.client.host if request else "unknown"
     
-    logger.info(f"[HealthCheck] Request from {client_ip}, elapsed={elapsed:.1f}s")
-
-    if elapsed < 5:
-        logger.warning(f"[HealthCheck] Rejecting - still starting up ({elapsed:.1f}s)")
-        from fastapi import HTTPException
-        raise HTTPException(status_code=503, detail=f"Starting up ({elapsed:.1f}s)")
-
-    logger.info(f"[HealthCheck] Passed - service ready")
+    logger.info(f"[HealthCheck] IP={client_ip}, uptime={elapsed:.1f}s")
+    
     return {
         "status": "ok", 
         "service": settings.app_name,
