@@ -72,7 +72,6 @@ htmlcov/
 # Docker
 .docker/
 docker-compose.override.yml
-.dockerignore
 
 # Cache
 .cache/

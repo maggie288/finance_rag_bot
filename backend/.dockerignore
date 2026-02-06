@@ -1,0 +1,77 @@
+# .dockerignore - 排除不必要的文件以减小镜像大小
+
+# 版本控制
+.git
+.gitignore
+.gitattributes
+
+# 文档
+*.md
+docs/
+README*
+LICENSE
+CONTRIBUTING*
+
+# 测试
+tests/
+test_*.py
+pytest.ini
+.coverage
+htmlcov/
+
+# IDE配置
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python字节码
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+
+# 日志
+*.log
+logs/
+*.log.*
+
+# 本地配置文件
+.env.local
+.env.*.local
+*.local
+
+# 前端构建（如果不在镜像中构建）
+.next/
+out/
+dist/
+build/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.temp
+
+# 数据库
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+
+# 其他
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+celerybeat-schedule*
