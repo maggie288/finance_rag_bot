@@ -1,0 +1,51 @@
+# 🚀 优化版Dockerfile - 减少镜像大小
+# 对比原版：预计从8.5GB减少到3-4GB
+
+# ========== 阶段1: 构建依赖 ==========
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# 安装编译工具（仅构建阶段）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 复制依赖文件并安装
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install \
+    -r requirements.txt
+
+# ========== 阶段2: 运行时镜像 ==========
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# ⚡ 优化1: 只安装运行时必需的系统包
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# ⚡ 优化2: 清理pip缓存
+COPY --from=builder /install /usr/local
+RUN pip cache purge || true
+
+# ⚡ 优化3: 设置环境变量减少日志和缓存
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# ⚡ 优化4: 复制应用代码（排除不必要的文件）
+# .dockerignore 会排除: tests/, docs/, *.md, .git/, etc.
+COPY . .
+
+# ⚡ 优化5: 清理临时文件
+RUN rm -rf /tmp/* \
+    /var/tmp/* \
+    /root/.cache \
+    /root/.pip/cache || true
+
+EXPOSE 8000
+
+# ⚡ 优化6: 使用更少的worker数量（减少内存占用）
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
