@@ -1,7 +1,7 @@
 import logging
 import time
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
@@ -57,13 +57,18 @@ app.include_router(api_router)
 
 
 @app.get("/health")
-async def health():
+async def health(request: Request = None):
     elapsed = time.time() - STARTUP_TIME
+    client_ip = request.client.host if request else "unknown"
+    
+    logger.info(f"[HealthCheck] Request from {client_ip}, elapsed={elapsed:.1f}s")
 
     if elapsed < 5:
+        logger.warning(f"[HealthCheck] Rejecting - still starting up ({elapsed:.1f}s)")
         from fastapi import HTTPException
         raise HTTPException(status_code=503, detail=f"Starting up ({elapsed:.1f}s)")
 
+    logger.info(f"[HealthCheck] Passed - service ready")
     return {
         "status": "ok", 
         "service": settings.app_name,
