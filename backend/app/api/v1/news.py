@@ -10,7 +10,7 @@ from app.dependencies import get_current_user
 from app.models.user import User
 from app.models.news import NewsArticle
 from app.workers.news_tasks import fetch_news_for_symbol
-from app.services.rag.pipeline import rag_pipeline
+from app.services.rag.pipeline_mvp import rag_pipeline
 
 router = APIRouter(prefix="/news", tags=["news"])
 

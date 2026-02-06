@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.workers.celery_app import celery_app
 from app.core.database import AsyncSessionLocal
 from app.services.news import NewsAggregator, SentimentAnalyzer, NewsStorageService
-from app.services.rag.pipeline import rag_pipeline
+from app.services.rag.pipeline_mvp import rag_pipeline
 from app.config import settings
 
 logger = logging.getLogger(__name__)

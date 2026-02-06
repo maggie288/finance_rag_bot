@@ -1,0 +1,59 @@
+# 🚀 MVP精简版Dockerfile - 针对Railway 4GB限制优化
+# 预计镜像大小: 1.5-2GB (从8.5GB大幅缩减)
+
+# ========== 阶段1: 构建依赖 ==========
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# 安装编译工具
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 使用MVP精简版依赖
+COPY requirements.mvp.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.mvp.txt
+
+# ========== 阶段2: 运行时镜像 ==========
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 只安装运行时必需的系统包
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 复制Python依赖
+COPY --from=builder /install /usr/local
+
+# 设置环境变量 - 减少缓存和日志
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    OPENAI_LOG_DIR=/tmp/openai_logs
+
+# 复制应用代码（排除不必要的文件）
+# 确保创建了.dockerignore
+COPY . .
+
+# 清理所有不必要的文件
+RUN rm -rf /tmp/* /var/tmp/* \
+    /root/.cache /root/.pip \
+    /app/tests /app/docs \
+    /app/*.md /app/*.MD \
+    /app/.git /app/.gitignore \
+    /app/__pycache__ /app/**/__pycache__ \
+    /app/*.pyc /app/**/*.pyc \
+    /app/.venv /app/venv \
+    /app/celerybeat-schedule* \
+    2>/dev/null || true
+
+# 确保日志目录存在
+RUN mkdir -p $OPENAI_LOG_DIR || true
+
+EXPOSE 8000
+
+# 使用较少的workers减少内存占用
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

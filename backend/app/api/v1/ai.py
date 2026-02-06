@@ -14,7 +14,7 @@ from app.dependencies import get_current_user
 from app.models.user import User
 from app.schemas.report import AIQueryRequest, AIQueryResponse
 from app.services.llm.provider import llm_provider
-from app.services.rag.pipeline import rag_pipeline
+from app.services.rag.pipeline_mvp import rag_pipeline
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 
