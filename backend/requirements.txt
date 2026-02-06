@@ -34,7 +34,7 @@ yahooquery==2.3.7
 feedparser==6.0.11
 aiohttp==3.11.11
 beautifulsoup4==4.12.3
-lxml==5.3.0
+lxml>=4.9.3,<5.0.0
 scrapy==2.11.2
 playwright==1.48.0
 # selenium removed due to websocket-client conflict with tushare
