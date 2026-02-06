@@ -40,7 +40,7 @@ requests>=2.28.0
 fake-useragent==1.5.1
 
 # AI - MVP精简版 (用OpenAI API代替本地模型)
-openai==1.55.0
+openai>=1.55.3
 pinecone-client==5.0.1
 litellm==1.56.4
 
