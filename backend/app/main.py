@@ -1,4 +1,5 @@
 import logging
+import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.api.v1.router import api_router
 from app.services.market_data.scheduler import start_scheduler, stop_scheduler
+
+logger = logging.getLogger(__name__)
+
+STARTUP_TIME = time.time()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,4 +58,14 @@ app.include_router(api_router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": settings.app_name}
+    elapsed = time.time() - STARTUP_TIME
+
+    if elapsed < 5:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=503, detail=f"Starting up ({elapsed:.1f}s)")
+
+    return {
+        "status": "ok", 
+        "service": settings.app_name,
+        "uptime": f"{elapsed:.1f}s"
+    }
