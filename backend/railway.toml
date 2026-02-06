@@ -1,9 +1,9 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "backend/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "bash backend/railway-entrypoint.sh"
+startCommand = "bash railway-entrypoint.sh"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"

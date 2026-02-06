@@ -2,8 +2,8 @@
 # Finance RAG Bot - Railway 部署启动脚本
 # 用法: railway deploy 或直接运行此脚本
 
-PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BACKEND_DIR="$PROJECT_DIR/backend"
+# Railway 部署时 Root Directory = backend，所以当前目录就是 backend
+BACKEND_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
