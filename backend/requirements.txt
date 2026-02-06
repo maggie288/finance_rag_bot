@@ -27,6 +27,7 @@ email-validator==2.2.0
 httpx==0.27.2
 akshare==1.18.21
 tushare==1.3.4
+yfinance==0.2.50
 
 # News Data
 feedparser==6.0.11
